@@ -32,7 +32,9 @@ bottom: 30px;
   border-radius: 0;
   width: 100%;
   height: 100%;
+
 }
+
 
 /* هدر */
 .chat-header {
@@ -90,149 +92,6 @@ bottom: 30px;
 .hidden {
     display: none;
 }
-
-/* پنجره چت */
-/* .chat-window {
-    position: fixed;
-    bottom: 60px;
-    right: 30px;
-    width: 380px;
-    max-width: 90%;
-    height: 500px;
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-    display: none;
-    flex-direction: column;
-    overflow: hidden;
-    z-index: 1000;
-    border: 1px solid #eaeaea;
-}
-
-.chat-header {
-    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-    color: white;
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.chat-header h3 {
-    font-weight: 600;
-}
-
-.close-btn {
-    background: rgba(255, 255, 255, 0.2);
-    border: none;
-    color: white;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 18px;
-    transition: background 0.3s;
-}
-
-.close-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
-}
-
-.chat-body {
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto;
-    background: #f9f9f9;
-    display: flex;
-    flex-direction: column;
-}
-
-/* استایل پیام‌ها */
-/* .message {
-    max-width: 75%;
-    padding: 12px 18px;
-    border-radius: 20px;
-    margin-bottom: 15px;
-    word-wrap: break-word;
-    animation: fadeIn 0.3s ease;
-}
-
-.received {
-    background: #e9ecef;
-    color: #333;
-    align-self: flex-start;
-    border-bottom-right-radius: 5px;
-}
-
-.sent {
-    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-    color: white;
-    align-self: flex-end;
-    border-bottom-left-radius: 5px;
-}
-
-.chat-footer {
-    padding: 20px;
-    display: flex;
-    border-top: 1px solid #eee;
-    background: white;
-}
-
-#messageInput {
-    flex: 1;
-    padding: 14px 20px;
-    border: 2px solid #e0e0e0;
-    border-radius: 30px;
-    font-size: 16px;
-    outline: none;
-    transition: border 0.3s;
-}
-
-#messageInput:focus {
-    border-color: #6a11cb;
-}
-
-#sendButton {
-    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-    color: white;
-    border: none;
-    width: 55px;
-    height: 55px;
-    border-radius: 50%;
-    margin-right: 15px;
-    cursor: pointer;
-    font-size: 20px;
-    transition: transform 0.3s;
-}
-
-#sendButton:hover {
-    transform: scale(1.05);
-} */
-
-/* انیمیشن */
-/* @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-} */
-
-/* واکنش‌گرایی */
-/* @media (max-width: 768px) {
-    .chat-window {
-        max-width: 95%;
-        max-height: 450px;
-        bottom: 10px;
-        right: 2.5%;
-    }
-    
-    .chat-button {
-        width: 60px;
-        height: 60px;
-        font-size: 24px;
-        bottom: 20px;
-        right: 20px;
-    }
-} */
-
 
 
 .close-btn {
