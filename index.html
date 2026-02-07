@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fa" >
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پشتیبانی چت</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <!-- آیکون‌ها از FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- محتوای اصلی سایت -->
+    <div class="content">
+        <h1>به سایت ما خوش آمدید</h1>
+        <p>برای ارتباط با پشتیبانی، روی دکمه پایین سمت راست کلیک کنید.</p>
+    </div>
+
+    <!-- دکمه شناور پشتیبانی -->
+    <button id="chatButton" class="chat-button">
+        <i class="fas fa-comment-dots"></i>
+    </button>
+
+        <!-- پنجره چت -->
+            <div class="chat-container" id="chatWindow">
+                <!-- Chat header -->
+                <div class="chat-header d-flex justify-content-between flex-row-reverse">
+                    <!-- <i class="fas fa-arrow-left back-btn"></i> -->
+                    
+                     <button class="faq-chat-button" id="openFaqFromChat">
+                        <i class="fas fa-question-circle"></i>
+                        <span>سوالات متداول </span>
+                    </button>
+                    <button class="close-btn" id="closeChat"><i class="fas fa-times"></i></button>
+                </div>
+
+                <!-- Chat messages area -->
+                <div class="chat-messages" id="chatBody">
+                    <div class="message received">
+                        <div class="message-bubble">
+                            <p>under development. If you wish, we can invite you to beta test the new functionality.
+                                Would you
+                                like to try it out?</p>
+                        </div>
+                        <span class="message-time">11:31 PM</span>
+                    </div>
+
+                    <div class="date-separator">April 22</div>
+
+                    <div class="message sent">
+                        <div class="message-bubble">
+                            <p>Hey! 👋 Are you planning to add the ability to use AI to generate not only colour
+                                schemes, but
+                                also simple vector graphics? Thank you</p>
+                        </div>
+                        <span class="message-time">Viewed 11:31 PM</span>
+                    </div>
+
+                    <div class="message received">
+                        <div class="message-bubble">
+                            <p>You're welcome. If you have any more questions, feel free to email us. 💙</p>
+                        </div>
+                        <span class="message-time">09:07 AM</span>
+                    </div>
+
+                    <div class="message sent">
+                        <div class="message-bubble">
+                            <p>Thank you!</p>
+                        </div>
+                        <span class="message-time">Viewed 08:17 AM</span>
+                    </div>
+
+                    <div class="message received">
+                        <div class="message-bubble">
+                            <p>Hello Kira! There are no expected changes to the terms and</p>
+                        </div>
+                        <span class="message-time">07:58 AM</span>
+                    </div>
+
+                    <!-- اضافه کردن پیام‌های بیشتر برای تست اسکرول -->
+                    <div class="message sent">
+                        <div class="message-bubble">
+                            <p>This is a test message to see the fade effect when scrolling.</p>
+                        </div>
+                        <span class="message-time">10:25 AM</span>
+                    </div>
+
+                    <div class="message received">
+                        <div class="message-bubble">
+                            <p>Another message to demonstrate the scrolling effect.</p>
+                        </div>
+                        <span class="message-time">10:26 AM</span>
+                    </div>
+
+                    <div class="message sent">
+                        <div class="message-bubble">
+                            <p>Scrolling down to see the fade effect in action.</p>
+                        </div>
+                        <span class="message-time">10:27 AM</span>
+                    </div>
+
+                    <div class="message received">
+                        <div class="message-bubble">
+                            <p>Keep scrolling to see more messages with the fade effect.</p>
+                        </div>
+                        <span class="message-time">10:28 AM</span>
+                    </div>
+                </div>
+
+                <!-- Message input area -->
+                <div class="message-input">
+                    <button type="button"><i class="fas fa-paperclip"></i></button>
+                    <input type="text" id="messageInput" placeholder="Write a message...">
+                    <button type="button" id="sendButton"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        <!-- پنل FAQ که از سمت راست باز می‌شود -->
+        <div id="faqPanel" class="faq-panel" dir="rtl">
+            <div class="faq-header">
+                <button class="faq-back-btn" id="faqBackBtn" style="display: none;">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <h3 id="faqPanelTitle">سوالات متداول</h3>
+                <button class="faq-close-btn" id="faqCloseBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="faq-content">
+                <!-- سطوح مختلف FAQ -->
+                <div class="faq-level active" id="faqLevel1">
+                    <h4>لطفاً دسته مورد نظر را انتخاب کنید:</h4>
+                    <div class="faq-categories-list">
+                        <div class="faq-category-item" data-category="accounting">
+                            <i class="fas fa-calculator"></i>
+                            <span>حسابداری</span>
+                            <i class="fas fa-chevron-left"></i>
+                        </div>
+                        <div class="faq-category-item" data-category="general">
+                            <i class="fas fa-cog"></i>
+                            <span>عمومی</span>
+                            <i class="fas fa-chevron-left"></i>
+                        </div>
+                        <div class="faq-category-item" data-category="installation">
+                            <i class="fas fa-download"></i>
+                            <span>نصب و راه اندازی</span>
+                            <i class="fas fa-chevron-left"></i>
+                        </div>
+                        <div class="faq-category-item" data-category="solutions">
+                            <i class="fas fa-lightbulb"></i>
+                            <span>راه حل‌ها</span>
+                            <i class="fas fa-chevron-left"></i>
+                        </div>
+                        <div class="faq-category-item" data-category="ai">
+                            <i class="fas fa-robot"></i>
+                            <span>چت بات هوش مصنوعی</span>
+                            <i class="fas fa-chevron-left"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- سطح دوم: سوالات هر دسته -->
+                <div class="faq-level" id="faqLevel2">
+                    <div class="faq-questions-list" id="questionsList">
+                        <!-- سوالات به صورت داینامیک لود می‌شوند -->
+                    </div>
+                </div>
+
+                <!-- سطح سوم: پاسخ سوال -->
+                <div class="faq-level" id="faqLevel3">
+                    <div class="faq-answer-content" id="answerContent">
+                        <!-- پاسخ به صورت داینامیک لود می‌شود -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <script src="script.js"></script>
+</body>
+
+</html>
