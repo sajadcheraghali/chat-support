@@ -34,35 +34,34 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function sendMessage() {
         const message = messageInput.value.trim();
-        if (message) {
+        if (message) {  // فقط وقتی پیام غیرخالی است
             const messageElement = document.createElement('div');
             messageElement.className = 'message sent';
             messageElement.innerHTML = `
-                        <div class="message-bubble">
-                            <p>${message}</p>
-                        </div>
-                        <span class="message-time">Just now</span>
-                    `;
+                    <div class="message-bubble">
+                        <p>${message}</p>
+                    </div>
+                    <span class="message-time">Just now</span>
+                `;
 
             document.querySelector('.chat-messages').appendChild(messageElement);
             messageInput.value = '';
             chatMessages.scrollTop = chatMessages.scrollHeight;
-            
-        }
-         // شبیه‌سازی پاسخ پس از 1 ثانیه
-     setTimeout(function () {
-            const replyDiv = document.createElement('div');
-            replyDiv.className = 'message received';
-            replyDiv.innerHTML = `
+
+            // شبیه‌سازی پاسخ پس از 1 ثانیه
+            setTimeout(function () {
+                const replyDiv = document.createElement('div');
+                replyDiv.className = 'message received';
+                replyDiv.innerHTML = `
                         <div class="message-bubble">
                             <p>پیام شما دریافت شد. پشتیبان به زودی پاسخ می‌دهد.</p>
                         </div>
                         <span class="message-time">Just now</span>
                     `;
-           chatMessages.appendChild(replyDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }, 1000);
-
+                chatMessages.appendChild(replyDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 1000);
+        }
     }
 
     sendButton.addEventListener('click', sendMessage);
@@ -81,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }, 3000);
 
-   
+
 
     // ارسال پیام
     // function sendMessage() {
@@ -98,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function () {
     //     messageInput.value = '';
 
     //     // اسکرول به پایین
-        // chatBody.scrollTop = chatBody.scrollHeight;
+    // chatBody.scrollTop = chatBody.scrollHeight;
 
     //     // شبیه‌سازی پاسخ پس از 1 ثانیه
     //     setTimeout(function () {
