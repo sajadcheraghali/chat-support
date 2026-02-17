@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // const sendButton = document.getElementById('sendButton');
     // const messageInput = document.getElementById('messageInput');
     const chatBody = document.getElementById('chatBody');
-    const closebutton = document.getElementById('closebutton');
+    // const closebutton = document.getElementById('closebutton');
 
 
     // باز کردن پنجره چت
@@ -13,14 +13,14 @@ document.addEventListener('DOMContentLoaded', function () {
         chatWindow.style.display = 'flex';
         chatButton.style.display = 'none';
         messageInput.focus();
-        closebutton.classList.remove("hidden");
+        // closebutton.classList.remove("hidden");
     });
 
     // بستن پنجره چت
     closeChat.addEventListener('click', function () {
         chatWindow.style.display = 'none';
         chatButton.style.display = 'block';
-        closebutton.classList.add("hidden");
+        // closebutton.classList.add("hidden");
     });
 
 
@@ -29,8 +29,20 @@ document.addEventListener('DOMContentLoaded', function () {
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
     // Handle send message
-    const messageInput = document.querySelector('.message-input input');
+    const messageInput = document.querySelector('.message-input textarea');
     const sendButton = document.querySelector('.message-input button:last-child');
+
+    //تغییر رنگ دکمه ارسال
+
+    messageInput.addEventListener('input', () => {
+  if (messageInput.value.trim() !== '') {
+    sendButton.classList.add('active');
+    sendButton.disabled = false;
+  } else {
+    sendButton.classList.remove('active');
+    sendButton.disabled = true;
+  }
+});
 
     function sendMessage() {
         const message = messageInput.value.trim();
@@ -56,12 +68,24 @@ document.addEventListener('DOMContentLoaded', function () {
                         <div class="message-bubble">
                             <p>پیام شما دریافت شد. پشتیبان به زودی پاسخ می‌دهد.</p>
                         </div>
+                       <div class="message-actions">
+                            <button class="like-btn">👍</button>
+                           
+
+                            <button class="dislike-btn">👎</button>
+                            
+
+                            <button class="copy-btn">📋</button>
+                            
+                        </div>
                         <span class="message-time">Just now</span>
                     `;
                 chatMessages.appendChild(replyDiv);
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }, 1000);
+            sendButton.classList.remove('active');
         }
+        
     }
 
     sendButton.addEventListener('click', sendMessage);
@@ -82,118 +106,228 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-    // ارسال پیام
-    // function sendMessage() {
-    //     const messageText = messageInput.value.trim();
-    //     if (messageText === '') return;
-
-    //     // ایجاد عنصر پیام ارسالی
-    //     const messageDiv = document.createElement('div');
-    //     messageDiv.className = 'message sent';
-    //     messageDiv.innerHTML = `<p>${messageText}</p>`;
-    //     chatBody.appendChild(messageDiv);
-
-    //     // پاک کردن فیلد ورودی
-    //     messageInput.value = '';
-
-    //     // اسکرول به پایین
-    // chatBody.scrollTop = chatBody.scrollHeight;
-
-    //     // شبیه‌سازی پاسخ پس از 1 ثانیه
-    //     setTimeout(function () {
-    //         const replyDiv = document.createElement('div');
-    //         replyDiv.className = 'message received';
-    //         replyDiv.innerHTML = '<p>پیام شما دریافت شد. پشتیبان به زودی پاسخ می‌دهد.</p>';
-    //         chatBody.appendChild(replyDiv);
-    //         chatBody.scrollTop = chatBody.scrollHeight;
-    //     }, 1000);
-    // }
-
-    // // ارسال با کلیک دکمه
-    // sendButton.addEventListener('click', sendMessage);
-
-    // // ارسال با کلید Enter
-    // messageInput.addEventListener('keypress', function (e) {
-    //     if (e.key === 'Enter') {
-    //         sendMessage();
-    //     }
-    // });
-
     // بستن پنجره با کلیک خارج از آن (اختیاری)
     document.addEventListener('click', function (event) {
         if (!chatWindow.contains(event.target) && !chatButton.contains(event.target) && chatWindow.style.display === 'flex') {
             chatWindow.style.display = 'none';
             chatButton.style.display = 'block';
-            closebutton.classList.add("hidden");
+            // closebutton.classList.add("hidden");
         }
     });
+
+const userInfoForm = document.getElementById('userInfoForm');
+const saveUserInfoBtn = document.getElementById('saveUserInfo');
+const lastNameInput = document.getElementById('userLastName');
+const emailInput = document.getElementById('userEmail');
+
+const messageInputWrapper = document.getElementById('messageInputWrapper');
+
+// بررسی اینکه قبلاً اطلاعات ذخیره شده یا نه
+const savedUser = JSON.parse(localStorage.getItem('chat_user'));
+
+if (savedUser && savedUser.lastName && savedUser.email) {
+    enableChat();
+} else {
+    disableChat();
+}
+
+saveUserInfoBtn.addEventListener('click', function () {
+    const lastName = lastNameInput.value.trim();
+    const email = emailInput.value.trim();
+
+    if (!lastName || !email) {
+        alert('لطفاً نام خانوادگی و ایمیل را وارد کنید');
+        return;
+    }
+
+    const userData = { lastName, email };
+    // localStorage.setItem('chat_user', JSON.stringify(userData));
+
+    enableChat();
+});
+
+function enableChat() {
+    userInfoForm.style.display = 'none';
+    messageInputWrapper.style.display= 'block'
+    messageInputWrapper.style.display= 'flex'
+    // messageInputWrapper.classList.remove('disabled');
+    // messageInputWrapper.querySelector('#messageInput').disabled = false;
+    // messageInputWrapper.querySelector('#sendButton').disabled = false;
+}
+
+function disableChat() {
+    // userInfoForm.style.display = 'flex';
+    // messageInputWrapper.classList.add('disabled');
+    // messageInputWrapper.querySelector('#messageInput').disabled = true;
+    // messageInputWrapper.querySelector('#sendButton').disabled = true;
+     userInfoForm.style.display = 'flex';
+    messageInputWrapper.style.display= 'none'
+    
+}
+
 });
 
 
+//ذخیره و لود لایک/دیسلایک از localStorage
+function saveFeedback(id, data) {
+    localStorage.setItem('feedback_' + id, JSON.stringify(data));
+}
 
+function loadFeedback(id, messageEl) {
+    const saved = localStorage.getItem('feedback_' + id);
+    if (!saved) return;
+
+    const data = JSON.parse(saved);
+
+    messageEl.querySelector('.like-count').innerText = data.likes;
+    messageEl.querySelector('.dislike-count').innerText = data.dislikes;
+
+    if (data.userAction === 'like') {
+        messageEl.querySelector('.like-btn').classList.add('active');
+    }
+
+    if (data.userAction === 'dislike') {
+        messageEl.querySelector('.dislike-btn').classList.add('active');
+    }
+}
+
+//ارسال بازخورد به سرور (با fetch)
+function sendFeedbackToServer(messageId, type) {
+    fetch('/api/feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            messageId,
+            feedback: type
+        })
+    }).catch(() => {
+        console.log('خطا در ارسال بازخورد به سرور');
+    });
+}
+
+//هندل کامل Like / Dislike / Copy (همه با هم
+chatBody.addEventListener('click', function (e) {
+    const btn = e.target;
+    const messageEl = btn.closest('.message');
+    if (!messageEl) return;
+
+    // 👍 Like
+    if (btn.classList.contains('like-btn')) {
+        const dislikeBtn = messageEl.querySelector('.dislike-btn');
+
+        btn.classList.toggle('active');
+        dislikeBtn.classList.remove('active');
+    }
+
+    // 👎 Dislike
+    if (btn.classList.contains('dislike-btn')) {
+        const likeBtn = messageEl.querySelector('.like-btn');
+
+        btn.classList.toggle('active');
+        likeBtn.classList.remove('active');
+    }
+
+    // 📋 Copy to clipboard
+    if (btn.classList.contains('copy-btn')) {
+        const text = messageEl.querySelector('.message-bubble p').innerText;
+
+        navigator.clipboard.writeText(text).then(() => {
+            btn.innerText = '✅ Copy to clipboard';
+            setTimeout(() => btn.innerText = '📋', 1000);
+        });
+    }
+
+
+});
+
+const attachBtn = document.getElementById('attachBtn');
+const fileInput = document.getElementById('fileInput');
+
+// با کلیک روی دکمه، پنجره انتخاب فایل باز شود
+// attachBtn.addEventListener('click', () => {
+//     fileInput.click();
+// });
+
+// وقتی فایل انتخاب شد
+// fileInput.addEventListener('change', () => {
+//     const files = fileInput.files;
+
+//     if (files.length > 0) {
+//         console.log(files);
+
+//         // مثال: نمایش نام فایل‌ها در کنسول
+//         for (let i = 0; i < files.length; i++) {
+//             console.log('Selected file:', files[i].name);
+//         }
+
+//         // اینجا می‌تونی فایل‌ها رو به سرور بفرستی
+//         // uploadFiles(files);
+//     }
+// });
+
+
+//////////////////////////////////////////////////////////////////////////////
 // داده‌های FAQ به صورت درختی
 const faqData = {
     accounting: {
         title: "حسابداری",
-        questions: [
+        levels: [
             {
                 id: 1,
-                question: "برای دریافت فاکتور رسمی چه اطلاعاتی نیاز خواهد بود؟",
-                answer: `
-                    <h4>برای دریافت فایل فاکتور رسمی باید موارد زیر را برای تیم ما ارسال کنید:</h4>
-                    
-                    <h5>برای اشخاص حقیقی:</h5>
-                    <ul>
-                        <li>نام کامل شرکت</li>
-                        <li>کدملی</li>
-                        <li>آدرس کامل: استان- شهر- کدپستی</li>
-                        <li>تلفن ثابت</li>
-                        <li>موبایل</li>
-                        <li>ایمیل و آدرس سایت</li>
-                        <li>نوع پکیج</li>
-                    </ul>
-                    
-                    <h5>برای اشخاص حقوقی:</h5>
-                    <ul>
-                        <li>نام کامل شرکت</li>
-                        <li>شناسه ملی</li>
-                        <li>کد اقتصادی</li>
-                        <li>شماره ثبت</li>
-                        <li>آدرس کامل: استان- شهر- کدپستی</li>
-                        <li>تلفن ثابت</li>
-                        <li>موبایل</li>
-                        <li>ایمیل و آدرس سایت</li>
-                        <li>نوع پکیج</li>
-                    </ul>
-                `
-            },
-            {
-                id: 2,
-                question: "نحوه واریز و خرید رایچت به چند روش انجام می‌شود؟",
-                answer: `
-                    <p>شما می‌توانید از طریق روش‌های زیر اقدام به خرید رایچت کنید:</p>
-                    <ul>
-                        <li>درگاه پرداخت آنلاین</li>
-                        <li>کارت به کارت</li>
-                        <li>واریز به شماره حساب</li>
-                        <li>پرداخت از طریق کیف پول‌های الکترونیکی</li>
-                    </ul>
-                    <p>شماره حساب: <strong>8888-8888-5664-4004</strong></p>
-                `
-            },
-            {
-                id: 3,
-                question: "امکان ارتقا پکیج بعد از خرید وجود دارد؟",
-                answer: `
-                    <p>بله، امکان ارتقا پکیج بعد از خرید وجود دارد. برای این کار:</p>
-                    <ol>
-                        <li>وارد پنل کاربری خود شوید</li>
-                        <li>به بخش "ارتقا پکیج" مراجعه کنید</li>
-                        <li>پکیج مورد نظر خود را انتخاب کنید</li>
-                        <li>مابه‌تفاوت قیمت را پرداخت نمایید</li>
-                    </ol>
-                    <p>پس از پرداخت، پکیج شما به صورت خودکار ارتقا خواهد یافت.</p>
-                `
+                title: "امور مالی پایه",
+                levels: [
+                    {
+                        id: 2,
+                        title: "صورتحساب‌ها",
+                        levels: [
+                            {
+                                id: 3,
+                                title: "فاکتور رسمی",
+                                levels: [
+                                    {
+                                        id: 4,
+                                        title: "مدارک مورد نیاز",
+                                        levels: [
+                                            {
+                                                id: 5,
+                                                title: "اشخاص حقیقی و حقوقی",
+                                                levels: [
+                                                    {
+                                                        id: 6,
+                                                        title: "نکات تکمیلی",
+                                                        questions: [
+                                                            {
+                                                                id: 1,
+                                                                question: "برای دریافت فاکتور رسمی چه اطلاعاتی نیاز خواهد بود؟",
+                                                                answer: `
+                                <p>برای دریافت فاکتور رسمی، اطلاعات هویتی و اطلاعات تماس شما مورد نیاز است.</p>
+                              `
+                                                            },
+                                                            {
+                                                                id: 2,
+                                                                question: "نحوه واریز و خرید رایچت به چند روش انجام می‌شود؟",
+                                                                answer: `
+                                <p>خرید رایچت از طریق درگاه آنلاین و روش‌های پرداخت دیگر امکان‌پذیر است.</p>
+                              `
+                                                            },
+                                                            {
+                                                                id: 3,
+                                                                question: "امکان ارتقا پکیج بعد از خرید وجود دارد؟",
+                                                                answer: `
+                                <p>بله، ارتقا پکیج از داخل پنل کاربری انجام می‌شود.</p>
+                              `
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
             }
         ]
     },
@@ -274,22 +408,8 @@ const faqData = {
     }
 };
 
-// متغیرهای مربوط به FAQ
-let currentCategory = null;
-let currentQuestion = null;
-let levelHistory = [];
 
-// عناصر DOM مربوط به FAQ
-const faqPanel = document.getElementById('faqPanel');
-const openFaqFromChat = document.getElementById('openFaqFromChat');
-const faqCloseBtn = document.getElementById('faqCloseBtn');
-const faqBackBtn = document.getElementById('faqBackBtn');
-const faqPanelTitle = document.getElementById('faqPanelTitle');
-const faqLevel1 = document.getElementById('faqLevel1');
-const faqLevel2 = document.getElementById('faqLevel2');
-const faqLevel3 = document.getElementById('faqLevel3');
-const questionsList = document.getElementById('questionsList');
-const answerContent = document.getElementById('answerContent');
+// const faqCloseBtn = document.getElementById('faqCloseBtn');
 
 // باز کردن پنل FAQ از چت
 openFaqFromChat.addEventListener('click', function () {
@@ -300,8 +420,8 @@ openFaqFromChat.addEventListener('click', function () {
 // بستن پنل FAQ
 faqCloseBtn.addEventListener('click', closeFaqPanel);
 
-// دکمه بازگشت
-faqBackBtn.addEventListener('click', goBack);
+// // // دکمه بازگشت
+// // faqBackBtn.addEventListener('click', goBack);
 
 // باز کردن پنل FAQ
 function openFaqPanel() {
@@ -311,162 +431,195 @@ function openFaqPanel() {
 // بستن پنل FAQ
 function closeFaqPanel() {
     faqPanel.classList.remove('active');
+    // faqPanel.style.display='none'
+    faqSearchInput.value = "";   // پاک شدن جستجو
     setTimeout(resetToLevel1, 400);
+   
+    // chatWindow.classList.add('open-chat')
+
+
 }
 
-// بازگشت به سطح قبلی
-function goBack() {
-    if (levelHistory.length > 0) {
-        const prevLevel = levelHistory.pop();
-        showLevel(prevLevel.level, prevLevel.category, prevLevel.question);
-    } else {
-        resetToLevel1();
-    }
-}
-
-// نمایش سطح مشخص شده
-function showLevel(level, category = null, question = null) {
-    // مخفی کردن همه سطوح
-    [faqLevel1, faqLevel2, faqLevel3].forEach(lvl => lvl.classList.remove('active'));
-
-    // نمایش دکمه بازگشت
-    faqBackBtn.style.display = level === 1 ? 'none' : 'flex';
-
-    if (level === 1) {
-        faqLevel1.classList.add('active');
-        faqPanelTitle.textContent = "سوالات متداول";
-        currentCategory = null;
-        currentQuestion = null;
-    }
-    else if (level === 2 && category) {
-        faqLevel2.classList.add('active');
-        faqPanelTitle.textContent = faqData[category].title;
-        currentCategory = category;
-        loadQuestions(category);
-    }
-    else if (level === 3 && category && question) {
-        faqLevel3.classList.add('active');
-        faqPanelTitle.textContent = "پاسخ سوال";
-        currentQuestion = question;
-        loadAnswer(category, question);
-    }
-}
 
 // بازنشانی به سطح اول
 function resetToLevel1() {
     levelHistory = [];
-    showLevel(1);
+    showLevel1(faqData, 1);
 }
 
-// بارگذاری سوالات یک دسته
-function loadQuestions(category) {
-    questionsList.innerHTML = '';
-    const categoryData = faqData[category];
+const faqPanel = document.getElementById("faqPanel");
+const faqTitle = document.getElementById("faqPanelTitle");
+const backBtn = document.getElementById("faqBackBtn");
 
-    categoryData.questions.forEach(item => {
-        const questionDiv = document.createElement('div');
-        questionDiv.className = 'faq-question-item';
-        questionDiv.innerHTML = `
-            <h5>${item.question}</h5>
-            <p>برای مشاهده پاسخ کلیک کنید</p>
-        `;
+let levelHistory = [];
 
-        questionDiv.addEventListener('click', function () {
-            levelHistory.push({
-                level: 2,
-                category: currentCategory,
-                question: null
-            });
-            showLevel(3, category, item.id);
+// نمایش سطح اول (دسته‌ها – همون HTML استاتیک خودت)
+function showLevel1() {
+    faqTitle.innerText = "سوالات متداول";
+
+    [faqLevel1, faqLevel2, faqLevel3].forEach(lvl => lvl.classList.remove("active"));
+    faqLevel1.classList.add("active");
+
+    backBtn.style.display = "none";
+    levelHistory = [];
+}
+
+// نمایش زیرسطح‌ها یا سوال‌ها
+function showLevel(data) {
+    [faqLevel1, faqLevel2, faqLevel3].forEach(lvl => lvl.classList.remove("active"));
+    faqLevel2.classList.add("active");
+
+    faqTitle.innerText = data.title;
+    backBtn.style.display = "flex";
+
+    questionsList.innerHTML = "";
+
+    if (data.levels && data.levels.length) {
+        data.levels.forEach(level => {
+            const div = document.createElement("div");
+            div.className = "faq-question-item";
+            div.innerHTML = `
+                <h5>${level.title}</h5>
+                <p>برای مشاهده زیرمجموعه کلیک کنید</p>
+            `;
+            div.onclick = () => {
+                levelHistory.push(data); // همون چیزی که خودت اصلاح کردی
+                showLevel(level);
+            };
+            questionsList.appendChild(div);
         });
-
-        questionsList.appendChild(questionDiv);
-    });
-}
-
-// بارگذاری پاسخ یک سوال
-function loadAnswer(category, questionId) {
-    answerContent.innerHTML = '';
-    const categoryData = faqData[category];
-    const question = categoryData.questions.find(q => q.id === questionId);
-
-    if (question) {
-        answerContent.innerHTML = `
-            <h4>${question.question}</h4>
-            <div class="answer-text">${question.answer}</div>
-            <button class="faq-chat-button" onclick="sendQuestionToChat('${category}', ${questionId})">
-                <i class="fas fa-paper-plane"></i>
-                <span>ارسال این سوال به چت</span>
-            </button>
-        `;
     }
-}
-
-// ارسال سوال به چت
-function sendQuestionToChat(category, questionId) {
-    const categoryData = faqData[category];
-    const question = categoryData.questions.find(q => q.id === questionId);
-
-    if (question) {
-        // بستن پنل FAQ
-        closeFaqPanel();
-
-        // ارسال سوال به چت
-        const questionDiv = document.createElement('div');
-        questionDiv.className = 'message sent';
-        questionDiv.innerHTML = `<p>${question.question}</p>`;
-        chatBody.appendChild(questionDiv);
-
-        // اسکرول به پایین
-        chatBody.scrollTop = chatBody.scrollHeight;
-
-        // شبیه‌سازی پاسخ
-        setTimeout(function () {
-            const replyDiv = document.createElement('div');
-            replyDiv.className = 'message received';
-            replyDiv.innerHTML = `<p>پاسخ: ${question.answer.replace(/<[^>]*>/g, '').substring(0, 100)}...</p>`;
-            chatBody.appendChild(replyDiv);
-            chatBody.scrollTop = chatBody.scrollHeight;
-        }, 1000);
-    }
-}
-
-// رویداد کلیک روی دسته‌بندی‌ها
-document.querySelectorAll('.faq-category-item').forEach(item => {
-    item.addEventListener('click', function () {
-        const category = this.getAttribute('data-category');
-        levelHistory.push({
-            level: 1,
-            category: null,
-            question: null
+    else if (data.questions && data.questions.length) {
+        data.questions.forEach(q => {
+            const div = document.createElement("div");
+            div.className = "faq-question-item";
+            div.innerHTML = `
+                <h5>${q.question}</h5>
+                <p>برای مشاهده پاسخ کلیک کنید</p>
+            `;
+            div.onclick = () => {
+                levelHistory.push(data);
+                showAnswer(q);
+            };
+            questionsList.appendChild(div);
         });
-        showLevel(2, category);
-    });
-});
-
-// بستن پنل FAQ با کلیک خارج از آن
-document.addEventListener('click', function (event) {
-    if (faqPanel.classList.contains('active') &&
-        !faqPanel.contains(event.target) &&
-        !openFaqFromChat.contains(event.target)) {
-        closeFaqPanel();
     }
-});
+}
 
-// همگام‌سازی با باز و بسته شدن پنجره چت
-const originalChatButtonClick = chatButton.onclick;
-chatButton.onclick = function () {
-    originalChatButtonClick();
-    // مخفی کردن دکمه FAQ اگر چت باز نیست
-    if (chatWindow.style.display !== 'flex') {
-        document.querySelector('.faq-chat-button-container').style.display = 'none';
+// نمایش جواب
+function showAnswer(q) {
+    [faqLevel1, faqLevel2, faqLevel3].forEach(lvl => lvl.classList.remove("active"));
+    faqLevel3.classList.add("active");
+
+    faqTitle.innerText = "پاسخ سوال";
+    backBtn.style.display = "flex";
+
+    answerContent.innerHTML = `
+        <h4>${q.question}</h4>
+        <div class="answer-text">${q.answer}</div>
+    `;
+}
+
+// بازگشت
+backBtn.onclick = () => {
+    if (levelHistory.length === 0) {
+        showLevel1();
+        return;
+    }
+
+    const prev = levelHistory.pop();
+
+    if (!prev || prev.type === "root") {
+        showLevel1();
     } else {
-        document.querySelector('.faq-chat-button-container').style.display = 'block';
+        showLevel(prev);
     }
 };
 
-const originalCloseChatClick = closeChat.onclick;
-closeChat.onclick = function () {
-    originalCloseChatClick();
-    document.querySelector('.faq-chat-button-container').style.display = 'none';
-};
+// کلیک روی دسته‌بندی‌های سطح اول (HTML استاتیک)
+document.querySelectorAll(".faq-category-item").forEach(item => {
+    item.addEventListener("click", function () {
+        const category = this.getAttribute("data-category");
+        levelHistory.push({ type: "root" });
+        showLevel(faqData[category]);
+    });
+});
+
+// اجرای اولیه
+showLevel1();
+
+//////////////////////////////////////////////////////////////قابلیت جستجو
+
+const faqSearchInput = document.getElementById("faqSearchInput");
+
+function searchInFaq(data, keyword, results = []) {
+    // جستجو در سوال‌ها
+    if (data.questions && data.questions.length) {
+        data.questions.forEach(q => {
+            if (
+                q.question.toLowerCase().includes(keyword) ||
+                q.answer.toLowerCase().includes(keyword)
+            ) {
+                results.push(q);
+            }
+        });
+    }
+
+    // جستجو در زیرسطح‌ها
+    if (data.levels && data.levels.length) {
+        data.levels.forEach(level => {
+            searchInFaq(level, keyword, results);
+        });
+    }
+
+    return results;
+}
+
+function showSearchResults(results, keyword) {
+    [faqLevel1, faqLevel2, faqLevel3].forEach(lvl => lvl.classList.remove("active"));
+    faqLevel2.classList.add("active");
+
+    faqTitle.innerText = `نتایج جستجو برای: "${keyword}"`;
+    backBtn.style.display = "flex";
+
+    questionsList.innerHTML = "";
+
+    if (results.length === 0) {
+        questionsList.innerHTML = `
+            <div class="faq-empty">
+                نتیجه‌ای پیدا نشد 😕
+            </div>
+        `;
+        return;
+    }
+
+    results.forEach(q => {
+        const div = document.createElement("div");
+        div.className = "faq-question-item";
+        div.innerHTML = `
+            <h5>${q.question}</h5>
+            <p>مشاهده پاسخ</p>
+        `;
+        div.onclick = () => {
+            showAnswer(q);
+        };
+        questionsList.appendChild(div);
+    });
+}
+
+faqSearchInput.addEventListener("input", function () {
+    const keyword = this.value.trim().toLowerCase();
+
+    if (keyword.length < 2) {
+        resetToLevel1();
+        return;
+    }
+
+    let allResults = [];
+
+    Object.values(faqData).forEach(category => {
+        searchInFaq(category, keyword, allResults);
+    });
+
+    showSearchResults(allResults, keyword);
+});
