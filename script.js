@@ -1,6 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
     const chatButton = document.getElementById('chatButton');
     const chatWindow = document.getElementById('chatWindow');
+    const chatWindow2 = document.getElementById('chatWindow2');
+    const faqPanel = document.getElementById('faqPanel');
+
     const closeChat = document.getElementById('closeChat');
     // const sendButton = document.getElementById('sendButton');
     // const messageInput = document.getElementById('messageInput');
@@ -11,6 +14,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // باز کردن پنجره چت
     chatButton.addEventListener('click', function () {
         chatWindow.style.display = 'flex';
+        chatWindow2.style.display = 'none';
+        faqPanel.style.display = 'flex';
+
         chatButton.style.display = 'none';
         messageInput.focus();
         // closebutton.classList.remove("hidden");
@@ -18,8 +24,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // بستن پنجره چت
     closeChat.addEventListener('click', function () {
-        chatWindow.style.display = 'none';
-        chatButton.style.display = 'block';
+        chatWindow2.style.display = 'none';
+        // chatButton.style.display = 'block';
+        faqPanel.style.display = 'flex';
         // closebutton.classList.add("hidden");
     });
 
@@ -106,14 +113,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-    // بستن پنجره با کلیک خارج از آن (اختیاری)
-    document.addEventListener('click', function (event) {
-        if (!chatWindow.contains(event.target) && !chatButton.contains(event.target) && chatWindow.style.display === 'flex') {
-            chatWindow.style.display = 'none';
-            chatButton.style.display = 'block';
-            // closebutton.classList.add("hidden");
-        }
-    });
+    // // بستن پنجره با کلیک خارج از آن (اختیاری)
+    // document.addEventListener('click', function (event) {
+    //     if (!chatWindow.contains(event.target) && !chatButton.contains(event.target) && chatWindow.style.display === 'flex') {
+    //         chatWindow.style.display = 'none';
+    //         chatButton.style.display = 'block';
+    //         // closebutton.classList.add("hidden");
+    //     }
+    // });
 
 const userInfoForm = document.getElementById('userInfoForm');
 const saveUserInfoBtn = document.getElementById('saveUserInfo');
@@ -237,7 +244,15 @@ chatBody.addEventListener('click', function (e) {
         });
     }
 
+    
+// if (btn.classList.contains('copy-btn')) {
+//     const text = messageEl.querySelector('.message-bubble p').innerText;
 
+//     navigator.clipboard.writeText(text).then(() => {
+//         btn.classList.add('copied');          // رنگ سبز شود
+//         setTimeout(() => btn.classList.remove('copied'), 1000); // بعد ۱ ثانیه برگردد
+//     });
+// }
 });
 
 const attachBtn = document.getElementById('attachBtn');
@@ -409,7 +424,16 @@ const faqData = {
 };
 
 
-// const faqCloseBtn = document.getElementById('faqCloseBtn');
+const faqCloseBtn = document.getElementById('faqCloseBtn');
+// const chatoOpenButton = document.getElementById('chat-open-button');
+const faqFooter = document.getElementById('faq-footer');
+
+
+faqFooter.addEventListener('click' , function () {
+    chatWindow2.style.display = "block"
+    faqPanel.style.display = "none"
+})
+
 
 // باز کردن پنل FAQ از چت
 openFaqFromChat.addEventListener('click', function () {
@@ -431,6 +455,8 @@ function openFaqPanel() {
 // بستن پنل FAQ
 function closeFaqPanel() {
     faqPanel.classList.remove('active');
+    chatWindow.style.display = 'none'
+    chatButton.style.display = 'block'
     // faqPanel.style.display='none'
     faqSearchInput.value = "";   // پاک شدن جستجو
     setTimeout(resetToLevel1, 400);
